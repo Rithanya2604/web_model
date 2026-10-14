@@ -1,0 +1,94 @@
+<html ng-app="studentApp">
+<head>
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="studentCtrl">
+    <header>
+        <h1>Student Management System</h1>
+        <p>Manage student records easily</p>
+    </header>
+    <nav>
+        <button ng-click="goTo('home')">Home</button>
+        <button ng-click="goTo('add')">Add Student</button>
+        <button ng-click="goTo('view')">View Students</button>
+    </nav>
+    <div class="container">
+        <section ng-if="page === 'home'">
+            <h2>Dashboard</h2>
+            <div class="card">
+                <h3>Total Students</h3>
+                <h1>{{students.length}}</h1>
+            </div>
+            <p>Welcome to the Student Management System.</p>
+        </section>
+        <section ng-if="page === 'add'">
+            <h2>{{editingId ? 'Update Student' : 'Add Student'}}</h2>
+            <form ng-submit="saveStudent()">
+                <label>Student Name</label>
+                <input type="text" ng-model="form.name"
+                       placeholder="Enter student name" required>
+                <label>Register Number</label>
+                <input type="text" ng-model="form.regno"
+                       placeholder="Enter register number" required>
+                <label>Department</label>
+                <input type="text" ng-model="form.department"
+                       placeholder="Enter department" required>
+                <button type="submit">
+                    {{editingId ? 'Update Student' : 'Add Student'}}
+                </button>
+                <button type="button" class="secondary"
+                        ng-click="resetForm()">Clear</button>
+            </form>
+        </section>
+        <section ng-if="page === 'view'">
+            <h2>Student Records</h2>
+            <div class="search">
+                <input type="text" ng-model="searchName"
+                       placeholder="Search by student name">
+                <button ng-click="searchStudent()">Search</button>
+                <button class="secondary" ng-click="clearSearch()">Clear Search</button>
+            </div>
+            <p ng-if="filteredStudents.length === 0">
+                No students found.
+            </p>
+            <div class="table-container">
+                <table ng-if="filteredStudents.length > 0">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Register Number</th>
+                            <th>Department</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="s in filteredStudents track by s._id">
+                            <td>{{$index + 1}}</td>
+                            <td>{{s.name}}</td>
+                            <td>{{s.regno}}</td>
+                            <td>{{s.department}}</td>
+                            <td>
+                                <button ng-click="editStudent(s)">Edit</button>
+                                <button class="danger"
+                                        ng-click="deleteStudent(s)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <p class="message"
+           ng-class="{'error': isError}"
+           ng-if="message">
+            {{message}}
+        </p>
+    </div>
+    <footer>
+        <p>Student Management System | Web Technology Lab</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
