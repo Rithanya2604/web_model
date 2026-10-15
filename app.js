@@ -6,7 +6,7 @@ app.controller("studentCtrl", function($scope, $http) {
     $scope.form = {};
     $scope.page = "home";
     $scope.editingId = null;
-    $scope.searchName = "";
+    $scope.search = { name: "" };
     $scope.loadStudents = function() {
         $http.get(API).then(function(res) {
             $scope.students = res.data;
@@ -58,7 +58,7 @@ app.controller("studentCtrl", function($scope, $http) {
         }
     };
     $scope.searchStudent = function() {
-        var name = ($scope.searchName || "").toLowerCase();
+        var name = ($scope.search.name || "").toLowerCase();
 
         $scope.filteredStudents = $scope.students.filter(function(s) {
             return s.name.toLowerCase().includes(name);
@@ -69,7 +69,7 @@ app.controller("studentCtrl", function($scope, $http) {
         $scope.editingId = null;
     };
     $scope.clearSearch = function() {
-        $scope.searchName = "";
+        $scope.search.name = "";
         $scope.searchStudent();
     };
     $scope.loadStudents();
