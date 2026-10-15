@@ -5,3 +5,6 @@ node server.js
 Testing:
 python -m pip install selenium
 python test_student.py
+xml:
+python -m pip install lxml
+python check_xml.py
